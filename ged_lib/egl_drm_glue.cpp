@@ -294,11 +294,11 @@ class EGLDRMGlue::Impl : public DRMModesetter::Client {
       egl_.egl_sync_supported = false;
     }
 
-    egl_.display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+    egl_.display = eglGetPlatformDisplay(EGL_PLATFORM_GBM_MESA, EGL_DEFAULT_DISPLAY, NULL);
 
     EGLint major, minor = 0;
     if (!eglInitialize(egl_.display, &major, &minor)) {
-      fprintf(stderr, "failed to initialize\n");
+      fprintf(stderr, "failed to initialize: %s\n", EglGetError());
       return false;
     }
 
